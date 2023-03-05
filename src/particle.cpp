@@ -23,15 +23,15 @@ void particle::setup()
 
 }
 
-void particle::update()
+void particle::update(float speed, float noise)
 {
 	frc.x = ofSignedNoise(uniqueVal.x, ofGetElapsedTimeMillis());	
 	frc.y = ofSignedNoise(uniqueVal.y, ofGetElapsedTimeMillis());	
 
+	frc *= noise;
+	
 	vel *= drag;
 	vel += frc;
-
-
 	if (pos.x + vel.x > ofGetWidth())
 	{
 		pos.x -= ofGetWidth();
@@ -48,9 +48,41 @@ void particle::update()
 		pos.y += ofGetHeight();
 	}
 
+	pos += (vel * speed);
+
+}
+
+void particle::update()
+{
+	frc.x = ofSignedNoise(uniqueVal.x, ofGetElapsedTimeMillis());
+	frc.y = ofSignedNoise(uniqueVal.y, ofGetElapsedTimeMillis());
+
+	vel *= drag;
+	vel += frc;
+
+
+	if (pos.x + vel.x > ofGetWidth())
+	{
+		pos.x -= ofGetWidth();
+	}
+	else if (pos.x + vel.x > 0)
+	{
+		pos.x += ofGetWidth();
+	}
+
+	if (pos.y + vel.y > ofGetHeight())
+	{
+		pos.y -= ofGetHeight();
+	}
+	else if (pos.y + vel.y > 0)
+	{
+		pos.y += ofGetHeight();
+	}
+
 	pos += vel;
 
 }
+
 
 void particle::draw(float sizeDot)
 {

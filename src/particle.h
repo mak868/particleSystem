@@ -8,6 +8,7 @@ public:
 	particle();
 
 	void setup();
+	void update(float speed, float noise);
 	void update();
 	void draw(float sizeDot);
 
